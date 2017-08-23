@@ -67,6 +67,29 @@ describe('user model', () => {
     expect(res.body.lastName).toBe('Lastname')
   })
 
+  test('firstname validation check', async () => {
+    const res = await request(app).post('/api/users').send({ firstName: 'asdf', lastName: 'Lastname' }).set('Authorization', 'Bearer someToken')
+    expect(res.statusCode).toBe(400)
+  })
+
+  test('lastname validation check', async () => {
+    const res = await request(app).post('/api/users').send({ firstName: 'Asdfa', lastName: 'lastname' }).set('Authorization', 'Bearer someToken')
+    expect(res.statusCode).toBe(400)
+  })
+
+  test('firstname 4 letters check', async () => {
+    const res = await request(app).post('/api/users').send({ firstName: 'Asd', lastName: 'lastname' }).set('Authorization', 'Bearer someToken')
+    expect(res.statusCode).toBe(400)
+  })
+
+  test('firstname letters and dashes check', async () => {
+    const res = await request(app).post('/api/users').send({ firstName: 'Asdqwer4', lastName: 'Lastname' }).set('Authorization', 'Bearer someToken')
+    expect(res.statusCode).toBe(400)
+    expect(res.body.message).toBe(`Validation Errors [ { param: 'firstName',
+    msg: 'Invalid firstName',
+    value: 'Asdqwer4' } ]`)
+  })
+
   test('should create a user', async () => {
     const res = await request(app).post('/api/users').send({ firstName: 'Firstname', lastName: 'Lastname' }).set('Authorization', 'Bearer someToken')
     const user = await db.User.findById(res.body.id)
@@ -97,8 +120,8 @@ describe('user model', () => {
     let user = await db.User.create({ firstName: 'Firstname1', lastName: 'Lastname1' })
     const res = await request(app).put(`/api/users/${user.id}`).send(
       {
-        firstName: 'DifferentFirstname',
-        lastName: 'DifferentLastname',
+        firstName: 'Different-firstname',
+        lastName: 'Different-lastname',
       })
       .set('Authorization', 'Bearer someToken')
 
@@ -106,10 +129,10 @@ describe('user model', () => {
 
     expect(res.statusCode).toBe(200)
     expect(res.type).toBe('application/json')
-    expect(res.body.firstName).toBe('DifferentFirstname')
-    expect(res.body.lastName).toBe('DifferentLastname')
-    expect(user.firstName).toBe('DifferentFirstname')
-    expect(user.lastName).toBe('DifferentLastname')
+    expect(res.body.firstName).toBe('Different-firstname')
+    expect(res.body.lastName).toBe('Different-lastname')
+    expect(user.firstName).toBe('Different-firstname')
+    expect(user.lastName).toBe('Different-lastname')
   })
 
   test('should delete a user', async () => {

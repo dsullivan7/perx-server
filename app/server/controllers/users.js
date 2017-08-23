@@ -1,14 +1,21 @@
+import util from 'util'
 import models from '../models'
 
 const User = models.User
 
-const create = (req, res) =>
-  User.create({
+const create = (req, res) => {
+  req.checkBody('firstName', 'Invalid firstName').validName()
+  req.checkBody('lastName', 'Invalid lastName').validName()
+
+  return req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) throw Error(`Validation Errors ${util.inspect(result.array())}`)
+  }).then(() => User.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-  })
+  }))
     .then(user => res.status(201).send(user))
-    .catch(error => res.status(400).send(error))
+    .catch(error => res.status(400).send({ message: error.message }))
+}
 
 const list = (req, res) => {
   const query = Object.assign({}, req.query.query, { order: [['createdAt', 'ASC']] })
@@ -37,23 +44,33 @@ const retrieve = (req, res) => {
   return null
 }
 
-const update = (req, res) =>
-  User.findById(req.params.id)
-    .then((user) => {
-      if (!user) {
-        res.status(404).send({
-          message: 'User Not Found',
-        })
-      } else {
-        user.update({
-          firstName: req.body.firstName || user.firstName,
-          lastName: req.body.lastName || user.lastName,
-        })
-          .then(() => res.status(200).send(user))
-          .catch(error => res.status(400).send(error))
-      }
-    })
-    .catch(error => res.status(400).send(error))
+const update = (req, res) => {
+  req.checkBody('firstName', 'Invalid firstName').validName()
+  req.checkBody('lastName', 'Invalid lastName').validName()
+
+  return req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) throw Error(`Validation Errors ${util.inspect(result.array())}`)
+  }).then(() => User.create({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+  })).then(() =>
+    User.findById(req.params.id)
+      .then((user) => {
+        if (!user) {
+          res.status(404).send({
+            message: 'User Not Found',
+          })
+        } else {
+          user.update({
+            firstName: req.body.firstName || user.firstName,
+            lastName: req.body.lastName || user.lastName,
+          })
+            .then(() => res.status(200).send(user))
+            .catch(error => res.status(400).send(error))
+        }
+      })
+      .catch(error => res.status(400).send(error)))
+}
 
 const destroy = (req, res) =>
   User.findById(req.params.id)
