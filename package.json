@@ -13,7 +13,7 @@
     "clean": "rimraf dist",
     "build": "babel app  --ignore app/test --copy-files --out-dir dist",
     "lint": "eslint app",
-    "start": "npm run clean && npm run build && npm run migrate && npm run docs && node ./dist/bin/start",
+    "start": "npm run clean && npm run build && npm run create-db && npm run migrate && npm run docs && node ./dist/bin/start",
     "start-dev": "nodemon ./app/bin/start --exec babel-node",
     "migrate": "sequelize db:migrate",
     "migrate-undo": "sequelize db:migrate:undo"

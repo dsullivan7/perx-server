@@ -30,7 +30,6 @@ apiRoutes.get('/', (req, res) => res.status(200).send({
  *
  * @apiSuccess (Response Fields) {String} firstName First name of the User
  * @apiSuccess (Response Fields) {String} lastName  Last name of the User
- * @apiSuccess (Response Fields) {Object[]} Accounts  Array of Accounts the User owns
  * @apiSuccess (Response Fields) {Number} id  Id of the User
  *
  * @apiSuccessExample Success-Response:
@@ -38,7 +37,6 @@ apiRoutes.get('/', (req, res) => res.status(200).send({
  *     {
  *       "firstName": "Michael",
  *       "lastName": "Jordan",
- *       "Accounts": [],
  *       "id": 1
  *     }
  *
@@ -53,7 +51,6 @@ apiRoutes.post('/users', usersController.create)
  *
  * @apiSuccess (Response Fields) {String} firstName First name of the User
  * @apiSuccess (Response Fields) {String} lastName  Last name of the User
- * @apiSuccess (Response Fields) {Object[]} Accounts  Array of Accounts the User owns
  * @apiSuccess (Response Fields) {Number} id  Id of the User
  *
  * @apiSuccessExample Success-Response:
@@ -62,13 +59,11 @@ apiRoutes.post('/users', usersController.create)
  *       {
  *         "firstName": "Michael",
  *         "lastName": "Jordan",
- *         "Accounts": [],
  *         "id": 1
  *       },
  *       {
  *         "firstName": "Kobe",
  *         "lastName": "Bryant",
- *         "Accounts": [],
  *         "id": 2
  *       },
  *     ]
@@ -86,7 +81,6 @@ apiRoutes.get('/users', usersController.list)
  *
  * @apiSuccess (Response Fields) {String} firstName First name of the User
  * @apiSuccess (Response Fields) {String} lastName  Last name of the User
- * @apiSuccess (Response Fields) {Object[]} Accounts  Array of Accounts the User owns
  * @apiSuccess (Response Fields) {Number} id  Id of the User
  *
  * @apiSuccessExample Success-Response:
@@ -94,7 +88,6 @@ apiRoutes.get('/users', usersController.list)
  *     {
  *       "firstName": "Michael",
  *       "lastName": "Jordan",
- *       "Accounts": [],
  *       "id": 1
  *     }
  *
@@ -121,7 +114,6 @@ apiRoutes.get('/users/:id', usersController.retrieve)
  *
  * @apiSuccess (Response Fields) {String} firstName First name of the User
  * @apiSuccess (Response Fields) {String} lastName  Last name of the User
- * @apiSuccess (Response Fields) {Object[]} Accounts  Array of Accounts the User owns
  * @apiSuccess (Response Fields) {Number} id  Id of the User
  *
  * @apiSuccessExample Success-Response:
@@ -129,7 +121,6 @@ apiRoutes.get('/users/:id', usersController.retrieve)
  *     {
  *       "firstName": "Michael",
  *       "lastName": "Jordan",
- *       "Accounts": [],
  *       "id": 1
  *     }
  *
