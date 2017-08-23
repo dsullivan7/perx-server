@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "node"
+  - "7"
+  - "6"
+  - "5"
+after_success: npm run coverage
+env:
+  - DATABASE_NAME=perx_test DATABASE_URL=postgres://localhost:5432/$DATABASE_NAME
+services:
+  - postgresql
+addons:
+  postgresql: "9.6"
+before_script:
+  - npm run create-db
