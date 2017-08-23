@@ -4,15 +4,14 @@ const User = models.User
 
 const create = (req, res) =>
   User.create({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    Accounts: [],
-  }, { include: 'Accounts' })
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+  })
     .then(user => res.status(201).send(user))
     .catch(error => res.status(400).send(error))
 
 const list = (req, res) => {
-  const query = Object.assign({}, req.query.query, { include: 'Accounts', order: [['createdAt', 'ASC']] })
+  const query = Object.assign({}, req.query.query, { order: [['createdAt', 'ASC']] })
 
   User.findAll(query)
     .then(users => res.status(200).send(users))
@@ -26,7 +25,7 @@ const retrieve = (req, res) => {
     return null
   }
 
-  User.findById(req.params.userId, { include: 'Accounts' }).then((user) => {
+  User.findById(req.params.id).then((user) => {
     if (!user) {
       res.status(404).send({
         message: 'User Not Found',
@@ -39,7 +38,7 @@ const retrieve = (req, res) => {
 }
 
 const update = (req, res) =>
-  User.findById(req.params.userId, { include: 'Accounts' })
+  User.findById(req.params.id)
     .then((user) => {
       if (!user) {
         res.status(404).send({
@@ -47,8 +46,8 @@ const update = (req, res) =>
         })
       } else {
         user.update({
-          firstname: req.body.firstname || user.firstname,
-          lastname: req.body.lastname || user.lastname,
+          firstName: req.body.firstName || user.firstName,
+          lastName: req.body.lastName || user.lastName,
         })
           .then(() => res.status(200).send(user))
           .catch(error => res.status(400).send(error))
@@ -57,7 +56,7 @@ const update = (req, res) =>
     .catch(error => res.status(400).send(error))
 
 const destroy = (req, res) =>
-  User.findById(req.params.userId)
+  User.findById(req.params.id)
     .then((user) => {
       if (!user) {
         res.status(400).send({

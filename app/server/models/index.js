@@ -15,9 +15,9 @@ if (sequelizeConfig.use_env_variable) {
   sequelize = new Sequelize(process.env[sequelizeConfig.use_env_variable], sequelizeConfig)
 } else {
   sequelize = new Sequelize(sequelizeConfig.database,
-                            sequelizeConfig.username,
-                            sequelizeConfig.password,
-                            sequelizeConfig)
+    sequelizeConfig.username,
+    sequelizeConfig.password,
+    sequelizeConfig)
 }
 
 fs.readdirSync(__dirname)

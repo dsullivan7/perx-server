@@ -8,6 +8,7 @@
     "docs-dev": "apidoc -i app/server/routes -o app/public/docs",
     "docs": "apidoc -i app/server/routes -o dist/public/docs",
     "test": "jest --coverage --runInBand --forceExit",
+    "test-debug": "jest --coverage --runInBand",
     "coverage": "nyc report --temp-directory=coverage --reporter=text-lcov | coveralls",
     "clean": "rimraf dist",
     "build": "babel app  --ignore app/test --copy-files --out-dir dist",
